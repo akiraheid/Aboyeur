@@ -42,7 +42,13 @@ Directions.
 More directions.
 ```
 
-Directions are generated as `<p>`s of class "recipe-direction".
+Directions are generated as `<p>`s of class "recipe-direction" in a `<div>` tree of class "recipe-directions".
+
+```html
+<div class="recipe-directions">
+	<p class="recipe-direction">Directions.</p>
+</div>
+```
 
 ## Example
 
@@ -60,4 +66,4 @@ Place sandwich into pan and wait until golden brown, about 2 minutes. Flip and r
 ```
 
 ## TODO
-[] Support parts of Markdown in description.
+[ ] Support parts of Markdown in description.
