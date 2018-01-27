@@ -13,7 +13,6 @@ ingredientPat = re.compile('\s*(?P<amount>\d+(.\d+)?)\s+'
     '(,\s*(?P<prep>(\w(\s)??)+))?\s*'
     '(\((?P<note>.+)\))?'.format(
     '|'.join(acceptedUnits)))
-#ingredientPat = re.compile('\s*(?P<amount>\d+(.\d+)?)\s+(?P<unit>(\w\s+)+)(?P<prep>,\s*(\w(\s+)?)+)\s*(?P<note>\((\w(\s+)?)+\))\s*')
 
 def findFirstEmptyLine(lines, index):
     for line in lines[index:]:
@@ -76,7 +75,7 @@ def readRecipe(lines):
 
 def generateHTML(recipe):
     recipe = readRecipe(recipeLines)
-    htmlString = '<h1>' + recipe['title'] + '</h1>'
+    htmlString = '<h1>' + recipe['recipe-title'] + '</h1>'
 
     htmlString = htmlString + '<div class="ingredients">'
     for ingredient in recipe['ingredients']:
@@ -100,15 +99,16 @@ def generateHTML(recipe):
 
     htmlString = htmlString + '</div>'
 
-    htmlString = htmlString + '<div class="directions">'
+    htmlString = htmlString + '<div class="recipe-directions">'
     for direction in recipe['directions']:
         htmlString = (''
-            '{0}<p class="direction">{1}</p>'.format(htmlString, direction))
+            '{0}<p class="recipe-direction">{1}</p>'.format(htmlString, direction))
         
     htmlString = htmlString + '</div>'
 
     return htmlString
 
+# Start script
 parser = argparse.ArgumentParser()
 parser.add_argument('FILE', metavar='FILE', nargs=1)
 
