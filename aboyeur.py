@@ -8,7 +8,7 @@ acceptedUnits = ['g', 'gram', 'oz', 'ounce', 'floz', 'fluid ounces', 'lb',
         'tbsps', 'tablespoons', 'tsp', 'teaspoon', 'tsps', 'teaspoons', 'cup',
         'cups']
 
-ingredientPat = re.compile('\s*(?P<amount>\d+(.\d+)?)\s+'
+ingredientPat = re.compile('\s*(?P<amount>\d+(\.\d+)?)\s+'
     '(?P<unit>{0})\s+'
     '(?P<name>(\w(\s*)??)+)\s*'
     '(,\s*(?P<prep>(\w(\s)??)+))?\s*'
@@ -41,6 +41,18 @@ def getIngredients(lines):
 
     for line in lines:
         match = ingredientPat.search(line)
+
+        if match is None:
+            # Ingredient can't be parsed
+            ingredient = {}
+            ingredient['amount'] = '?'
+            ingredient['unit'] = '?'
+            ingredient['name'] = '?'
+            ingredient['prep'] = '?'
+            ingredient['note'] = 'Cannot parse "{0}"'.format(line)
+            ingredients.append(ingredient)
+            continue
+
         ingredient = {}
         ingredient['amount'] = match.group('amount')
         ingredient['unit'] = match.group('unit')
@@ -76,7 +88,7 @@ def readRecipe(lines):
 
 def generateHTML(recipe):
     recipe = readRecipe(recipeLines)
-    htmlString = '<h1>' + recipe['recipe-title'] + '</h1>'
+    htmlString = '<h1 class="recipe-title">' + recipe['title'] + '</h1>'
 
     htmlString = htmlString + '<div class="ingredients">'
     for ingredient in recipe['ingredients']:
@@ -104,7 +116,7 @@ def generateHTML(recipe):
     for direction in recipe['directions']:
         htmlString = (''
             '{0}<p class="recipe-direction">{1}</p>'.format(htmlString, direction))
-        
+
     htmlString = htmlString + '</div>'
 
     return htmlString
