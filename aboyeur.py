@@ -5,7 +5,8 @@ import re
 
 acceptedUnits = ['g', 'gram', 'oz', 'ounce', 'floz', 'fluid ounces', 'lb',
         'pound', 'slice', 'slices', 'clove', 'cloves', 'tbsp', 'tablespoon',
-        'tbsps', 'tablespoons']
+        'tbsps', 'tablespoons', 'tsp', 'teaspoon', 'tsps', 'teaspoons', 'cup',
+        'cups']
 
 ingredientPat = re.compile('\s*(?P<amount>\d+(.\d+)?)\s+'
     '(?P<unit>{0})\s+'
