@@ -3,11 +3,12 @@
 import argparse
 import re
 
-acceptedUnits = ['g', 'gram', 'oz', 'ounce', 'floz', 'fluid ounces', 'lb',
-        'pound', 'slice', 'slices', 'clove', 'cloves', 'tbsp', 'tablespoon',
-        'tbsps', 'tablespoons']
+acceptedUnits = ['clove', 'cloves', 'cup', 'cups', 'floz', 'fluid ounce',
+        'fluid ounces', 'g', 'gram', 'grams', 'lb', 'pound', 'pounds', 'oz',
+        'ounce', 'ounces', 'slice', 'slices', 'tbsp', 'tablespoon',
+        'tablespoons', 'tsp', 'teaspoon', 'teaspoons']
 
-ingredientPat = re.compile('\s*(?P<amount>\d+(.\d+)?)\s+'
+ingredientPat = re.compile('\s*(?P<amount>\d+(\.\d+)?)\s+'
     '(?P<unit>{0})\s+'
     '(?P<name>(\w(\s*)??)+)\s*'
     '(,\s*(?P<prep>(\w(\s)??)+))?\s*'
@@ -40,6 +41,18 @@ def getIngredients(lines):
 
     for line in lines:
         match = ingredientPat.search(line)
+
+        if match is None:
+            # Ingredient can't be parsed
+            ingredient = {}
+            ingredient['amount'] = '?'
+            ingredient['unit'] = '?'
+            ingredient['name'] = '?'
+            ingredient['prep'] = '?'
+            ingredient['note'] = 'Cannot parse "{0}". Perhaps the unit doesn\'t exist in the list ({1})'.format(line, ', '.join(acceptedUnits))
+            ingredients.append(ingredient)
+            continue
+
         ingredient = {}
         ingredient['amount'] = match.group('amount')
         ingredient['unit'] = match.group('unit')
@@ -74,8 +87,11 @@ def readRecipe(lines):
     return recipe
 
 def generateHTML(recipe):
+    if len(recipe) == 0:
+        return 'No recipe'
+
     recipe = readRecipe(recipeLines)
-    htmlString = '<h1>' + recipe['recipe-title'] + '</h1>'
+    htmlString = '<h1 class="recipe-title">' + recipe['title'] + '</h1>'
 
     htmlString = htmlString + '<div class="ingredients">'
     for ingredient in recipe['ingredients']:
@@ -103,7 +119,7 @@ def generateHTML(recipe):
     for direction in recipe['directions']:
         htmlString = (''
             '{0}<p class="recipe-direction">{1}</p>'.format(htmlString, direction))
-        
+
     htmlString = htmlString + '</div>'
 
     return htmlString
