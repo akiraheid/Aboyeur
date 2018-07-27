@@ -1,5 +1,5 @@
-# Aboyeur
-Aboyeur is the specification for a way to write recipes in a way that is easy to read by humans and easy to parse for importing into software.
+# Recipe
+Recipe is the specification for a way to write recipes in a way that is easy to read by humans and parseable for importing into software.
 
 ## Format
 The recipe starts with the closing bracket (`]`) to signify the recipe title, allowing multiple recipes to be stored in the same file.
@@ -44,59 +44,6 @@ Here's an example recipe of grilled cheese, yum!
 Heat a pan to medium heat. Butter one side of each slice of bread and place cheese between slices of bread so that the buttered sides are facing outward.
 
 Place sandwich into pan and wait until golden brown, about 2 minutes. Flip and repeat. Serve hot.
-```
-
-## To HTML
-
-In the repository is a parser that translates Aboyeur formatted recipes into HTML.
-
-```
-$ python aboyeur.py file.rcp
-```
-
-Titles are translated into HTML as
-
-```html
-<h1 class="recipe-title">Recipe Title</h1>
-```
-
-Ingredient lists become
-
-```html
-<div class="ingredients">
-	<div class="ingredient">
-		<span class="ingredient-amount">amount</span><span class="ingredient-unit">unit</span><span class="ingredient-name">ingredient name</span><span class="ingredient-prep">preparation method</span><span class="ingredient-note">notes</span>
-	</div>
-</div>
-```
-
-Directions become
-
-```html
-<div class="recipe-directions">
-	<p class="recipe-direction">Directions.</p>
-</div>
-```
-
-With their powers combined :globe_with_meridians:
-
-```html
-<h1 class="recipe-title">Grilled Cheese</h1>
-<div class="ingredients">
-	<div class="ingredient">
-		<span class="ingredient-amount">2</span><span class="ingredient-unit">slices</span><span class="ingredient-name">bread</span><span class="ingredient-note">(whatever kind, preferably potato)</span>
-	</div>
-	<div class="ingredient">
-		<span class="ingredient-amount">2</span><span class="ingredient-unit">slices</span><span class="ingredient-name">munster</span>
-	</div>
-	<div class="ingredient">
-		<span class="ingredient-amount">1</span><span class="ingredient-unit">tbsp</span><span class="ingredient-name">butter</span><span class="ingredient-prep">divided</span><span class="ingredient-note">(0.5 tbsp per slice of bread)</span>
-	</div>
-</div>
-<div class="recipe-directions">
-	<p class="recipe-direction">Heat a pan to medium heat. Butter one side of each slice of bread and place cheese between slices of bread so that the buttered sides are facing outward.</p>
-	<p class="recipe-direction">Place sandwich into pan and wait until golden brown, about 2 minutes. Flip and repeat. Serve hot.</p>
-</div>
 ```
 
 ## TODO
