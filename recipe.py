@@ -47,10 +47,12 @@ def findFirstNonEmptyLine(lines, start):
 
     return -1
 
-def getTitle(line):
+def _getTitle(line):
+    """Return the title string. This function will return `line` if the string does not contain ']'."""
     return line[line.find(']') + 1:].strip()
 
-def getIngredients(lines):
+def _getIngredients(lines):
+    """Return a list of dictionaries for ingredients parsed from the list of ingredient strings, `lines`."""
     ingredients = []
 
     for line in lines:
@@ -92,11 +94,13 @@ def getIngredients(lines):
         ingredients.append(ingredient)
     return ingredients
 
-def getDirections(lines):
+def _getDirections(lines):
+    """Return a list of strings where empty strings are removed from the list of strings, `lines`."""
     directions = filter(lambda line : line.strip() != '', lines)
     return directions
 
-def extractRecipe(lines):
+def _extractRecipe(lines):
+    """Return a recipe dictionary from the list of strings, `lines`, determined to be part of the recipe. A partial dictionary (dictionary with not all expected elements of a recipe) can be returned if parsing fails."""
     recipe = {}
 
     recipe[TITLE_KEY] = getTitle(lines[0])
@@ -116,7 +120,24 @@ def extractRecipe(lines):
     return recipe
 
 def fromString(s):
-    """Return a list of recipes from the string `s`. If there are no recipes in the string, an empty list is returned."""
+    """Return a list of recipes from the string `s`. If there are no recipes in the string, an empty list is returned.
+
+    Recipes are represented by a dictionary of the format:
+    ```
+    {
+        'title': string,
+        'ingredients': [
+            {
+                'amount': float,
+                'unit': string,
+                'name': string,
+                'prep': string,
+                'note': string
+            },
+            ...,
+        'directions': [string, ...]
+    }
+    ```"""
     recipes = []
     inRecipe = False # One-time flag to skip initial file contents until first
                      # recipe title
@@ -152,7 +173,7 @@ def fromString(s):
     return recipes
 
 def toString(recipes):
-    """Return a string representation of the recipes given in `recipes`."""
+    """Return a string representation of the recipes given in `recipes` in Recipe-compliant format."""
     recipeStrings = []
 
     for recipe in recipes:
