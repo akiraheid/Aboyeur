@@ -45,6 +45,3 @@ Heat a pan to medium heat. Butter one side of each slice of bread and place chee
 
 Place sandwich into pan and wait until golden brown, about 2 minutes. Flip and repeat. Serve hot.
 ```
-
-## TODO
-- [ ] Support parts of Markdown in description.

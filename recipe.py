@@ -1,9 +1,5 @@
-"""Module to generate JSON from recipe files.
+"""Module to generate recipe string and JSON from recipe files."""
 
-This file can also be run with a file as an argument to print the JSON conversion to stdout."""
-
-import argparse
-import copy
 import re
 
 DIRECTIONS_KEY = 'directions'
@@ -181,17 +177,3 @@ def toString(recipes):
         recipeStrings.append(output + '\n\n'.join(recipe[DIRECTIONS_KEY]))
 
     return '\n'.join(recipeStrings)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('FILE', nargs=1)
-
-    args = parser.parse_args()
-
-    data = ''
-    with open(args.FILE[0], 'r') as file:
-        data = file.read()
-
-    print(fromString(data))
-    print('')
-    print(toString(fromString(data)))
