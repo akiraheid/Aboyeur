@@ -63,7 +63,7 @@ def _getIngredients(lines):
     ingredients = []
 
     for line in lines:
-        match = _INGREDIENT_PAT.search(line)
+        match = _INGREDIENT_PAT.search(line.strip())
 
         if match is None:
             # Ingredient can't be parsed
@@ -104,7 +104,7 @@ def _getIngredients(lines):
 def _getDirections(lines):
     """Return a list of strings where empty strings are removed from the list of
     strings, `lines`."""
-    directions = [line for line in lines if line.strip() != '']
+    directions = [line.strip() for line in lines if line.strip() != '']
     return directions
 
 def _extractRecipe(lines):
