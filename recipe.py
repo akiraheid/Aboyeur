@@ -26,7 +26,7 @@ UNIT_SHORTS = {
 
 _INGREDIENT_PAT = re.compile(r'\s*(?P<amount>\d+(\.\d+)?)\s+'
                              r'(?P<unit>{0})\s+'
-                             r'(?P<name>(\w(\s*)?)+)\s*'
+                             r'(?P<name>\w+[^,]*)\s*'
                              r'(,\s*(?P<prep>(\w(\s)??)+))?\s*'
                              r'(\((?P<note>.+)\))?'.format(
                                  '|'.join(ACCEPTED_UNITS)))
