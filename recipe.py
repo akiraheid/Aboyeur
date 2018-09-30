@@ -210,3 +210,26 @@ def toString(recipes):
         recipeStrings.append(output + '\n\n'.join(recipe[DIRECTIONS_KEY]))
 
     return '\n'.join(recipeStrings)
+
+if __name__ == '__main__':
+    import argparse
+    import json
+    import pprint as pp
+    parser = argparse.ArgumentParser()
+    parser.add_argument('files', nargs='+', help='.rcp files to convert to JSON')
+    parser.add_argument('--output', help='File to output to. Default recipes.json')
+
+    args = parser.parse_args()
+
+    output = args.output
+    recipes = []
+    for f in args.files:
+        with open(f, 'r') as tmp:
+            recipes.extend(fromString(tmp.read()))
+
+    data = {"recipes": recipes}
+    if output:
+        with open(output, 'w') as tmp:
+            json.dump(data, tmp)
+    else:
+        pp.pprint(json.dumps(data))
